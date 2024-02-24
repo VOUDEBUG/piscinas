@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Orçamento de Piscina</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ecf6fd; /* Fundo azul claro */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h2 {
+            color: #202124;
+            margin-bottom: 20px;
+            font-weight: 400;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #202124;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            font-size: 16px; /* Aumenta o tamanho da fonte */
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0d47a1;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .link-whatsapp {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link-whatsapp a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .link-whatsapp a:hover {
+            text-decoration: underline;
+        }
+
+        #resultado {
+            margin-top: 20px; /* Adiciona espaçamento acima do resultado */
+            text-align: center; /* Centraliza o texto */
+            font-weight: bold; /* Torna o texto mais em ênfase */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="images/Larbor_01.png" alt="Logo da Empresa">
+        </div>
+        <h2>Formulário de Orçamento de Piscina</h2>
+        <form id="orcamentoForm">
+            <label for="volume">Volume da piscina (m³):</label>
+            <input type="number" id="volumeInput" name="volume" required>
+            <br><br>
+
+            <input type="submit" value="Calcular Orçamento">
+        </form>
+        <div id="resultado"></div>
+        <div class="link-whatsapp" id="linkWhatsapp" style="display: none;">
+            <a href="#" id="linkInteresse">Tenho interesse em mais detalhes</a>
+        </div>
+    </div>
+
+    <!-- Script JavaScript para calcular o valor do orçamento e criar o link para o WhatsApp -->
+    <script>
+        document.getElementById('orcamentoForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita o envio do formulário
+
+            // Obtém o volume da piscina inserido pelo usuário
+            var volume = parseFloat(document.getElementById('volumeInput').value);
+
+            // Define o multiplicador com base no volume
+            var multiplicador;
+            if (volume <= 50) {
+                multiplicador = 11.20;
+            } else if (volume <= 60) {
+                multiplicador = 10.81;
+            } else if (volume <= 70) {
+                multiplicador = 10.53;
+            } else if (volume <= 90) {
+                multiplicador = 10.16;
+            } else if (volume <= 100) {
+                multiplicador = 10.03;
+            } else if (volume <= 120) {
+                multiplicador = 9.83;
+            } else if (volume <= 150) {
+                multiplicador = 9.64;
+            } else if (volume <= 170) {
+                multiplicador = 9.55;
+            } else if (volume <= 200) {
+                multiplicador = 9.45;
+            } else {
+                // Volume acima de 200, redireciona para o WhatsApp com mensagem personalizada
+                var mensagemWhatsApp = 'Olá, gostaria de um orçamento customizado para uma piscina com volume acima de 200m³.';
+                var whatsappLink = 'https://api.whatsapp.com/send?phone=5511930932612&text=' + encodeURIComponent(mensagemWhatsApp);
+                window.location.href = whatsappLink;
+                return; // Encerra a execução do script
+            }
+
+            // Calcula o valor do orçamento multiplicando o volume pelo multiplicador
+            var valorOrcamento = volume * multiplicador;
+
+            // Formata o valor do orçamento para duas casas decimais
+            var valorFormatado = valorOrcamento.toFixed(2);
+
+            // Exibe o valor do orçamento
+            document.getElementById('resultado').innerHTML = 'O orçamento para a sua piscina é de R$ ' + valorFormatado;
+
+            // Mostra o link de interesse
+            document.getElementById('linkWhatsapp').style.display = 'block';
+        });
+
+        // Adiciona evento ao link de interesse para redirecionar para o WhatsApp
+        document.getElementById('linkInteresse').addEventListener('click', function(event) {
+            var mensagemWhatsApp = 'Olá, tenho interesse em mais detalhes sobre o orçamento da piscina.';
+            var whatsappLink = 'https://api.whatsapp.com/send?phone=5511930932612&text=' + encodeURIComponent(mensagemWhatsApp);
+            window.location.href = whatsappLink;
+        });
+    </script>
+</body>
+</html>
